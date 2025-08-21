@@ -2,23 +2,20 @@
 // safe to delete
 
 {
-  "$schema": "https://r2.better-t-stack.dev/schema.json",
-  "version": "2.33.9",
-  "createdAt": "2025-08-19T17:29:31.698Z",
-  "database": "postgres",
-  "orm": "prisma",
-  "backend": "hono",
-  "runtime": "bun",
-  "frontend": [
-    "next"
-  ],
-  "addons": [
-    "turborepo"
-  ],
-  "examples": [],
-  "auth": false,
-  "packageManager": "bun",
-  "dbSetup": "prisma-postgres",
-  "api": "trpc",
-  "webDeploy": "none"
+	"$schema": "https://r2.better-t-stack.dev/schema.json",
+	"version": "2.35.4",
+	"createdAt": "2025-08-21T09:31:26.919Z",
+	"database": "postgres",
+	"orm": "drizzle",
+	"backend": "hono",
+	"runtime": "bun",
+	"frontend": ["next"],
+	"addons": ["turborepo"],
+	"examples": ["todo"],
+	"auth": true,
+	"packageManager": "bun",
+	"dbSetup": "none",
+	"api": "trpc",
+	"webDeploy": "none",
+	"serverDeploy": "none"
 }
