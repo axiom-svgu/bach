@@ -5,5 +5,8 @@ export const authClient = createAuthClient({
 });
 
 export function signInWithSpotify() {
-  window.location.href = "/api/auth/oauth/spotify";
+  // Redirect to backend Better Auth social sign-in for Spotify
+  const base = process.env.NEXT_PUBLIC_SERVER_URL;
+  const redirect = new URL("/api/auth/social/spotify", base);
+  window.location.href = redirect.toString();
 }

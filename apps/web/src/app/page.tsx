@@ -2,38 +2,28 @@
 
 import { useEffect, useState } from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { useAuthStore } from "@/lib/auth-store";
+import { trpc } from "@/utils/trpc";
 
 type Playlist = {
   id: string;
   name: string;
   images?: { url: string }[];
-  tracks?: { total: number };
-  owner?: { display_name?: string };
+  tracksTotal?: number;
+  ownerName?: string;
 };
 
 export default function Home() {
-  const accessToken = useAuthStore((s) => s.accessToken);
   const [playlists, setPlaylists] = useState<Playlist[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const utils = trpc;
 
   useEffect(() => {
     let ignore = false;
     async function load() {
-      if (!accessToken) return;
       try {
-        const res = await fetch(
-          "https://api.spotify.com/v1/me/playlists?limit=50",
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(`${res.status} ${text}`);
-        }
-        const data = await res.json();
-        if (!ignore) setPlaylists(data.items || []);
+        await utils.playlists.sync.mutate();
+        const list = await utils.playlists.list.query();
+        if (!ignore) setPlaylists(list as any);
       } catch (e: any) {
         if (!ignore) setError(e?.message || "Failed to load playlists");
       }
@@ -42,7 +32,7 @@ export default function Home() {
     return () => {
       ignore = true;
     };
-  }, [accessToken]);
+  }, [utils]);
 
   return (
     <ProtectedRoute>
@@ -64,7 +54,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="font-medium">{pl.name}</span>
                 <span className="text-sm text-muted-foreground">
-                  {pl.tracks?.total ?? 0} tracks
+                  {pl.tracksTotal ?? 0} tracks
                 </span>
               </div>
             </li>

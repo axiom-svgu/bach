@@ -42,12 +42,11 @@ export default function UserMenu() {
             variant="destructive"
             className="w-full"
             onClick={() => {
-              authClient.signOut({
-                fetchOptions: {
-                  onSuccess: () => {
-                    router.push("/");
-                  },
-                },
+              authClient.signOut().then(() => {
+                // Clear any legacy local cookies via local API in background
+                fetch("/api/auth/logout", { method: "POST" }).finally(() => {
+                  router.push("/");
+                });
               });
             }}
           >
