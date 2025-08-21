@@ -1,41 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "../index.css";
 import Providers from "@/components/providers";
-import Header from "@/components/header";
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-	title: "bach",
-	description: "bach",
+  title: "bach",
+  description: "bach",
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return (
-		<html lang="en" suppressHydrationWarning>
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-			>
-				<Providers>
-					<div className="grid grid-rows-[auto_1fr] h-svh">
-						<Header />
-						{children}
-					</div>
-				</Providers>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${manrope.variable} antialiased`}>
+        <Providers>
+          <div className="grid grid-rows-[auto_1fr] h-svh">{children}</div>
+        </Providers>
+      </body>
+    </html>
+  );
 }
